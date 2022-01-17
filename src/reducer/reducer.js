@@ -9,9 +9,14 @@ const reducer = (state, action) => {
                 ...state,
                 basket: [...state.basket, action.item],
             };
+        case 'REMOVE_FROM_BASKET':
+            return {
+                ...state,
+                basket: state.basket.filter((item, i) => i !== action.payload)
+            }
 
-            default:
-                return state
+        default:
+            return state
     }
 }
 

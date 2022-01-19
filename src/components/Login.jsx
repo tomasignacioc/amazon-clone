@@ -1,19 +1,36 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { auth } from '../firebase';
 import "./Login.css"
 
 const Login = () => {
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const signIn = (e) => {
         e.preventDefault();
-        // firebase login stuff
+        auth.
+            signInWithEmailAndPassword(email, password)
+            .then((auth) => {
+                if (auth) {
+                    history.push('/')
+                }
+            })
+            .catch((error) => alert(error.message))
     }
 
     const register = (e) => {
         e.preventDefault();
-        // firebase register stuff
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((auth) => {
+                // it successfully created a new user with email and password
+                if (auth) {
+                    history.push('/')
+                }
+            })
+            .catch((error) => alert(error.message))
     }
 
     return (
@@ -30,7 +47,7 @@ const Login = () => {
                     <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
 
                     <h5>Password</h5>
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
 
                     <button type="submit" onClick={signIn} className="login__signInButton">Sign in</button>
                 </form>

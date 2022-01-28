@@ -28,12 +28,14 @@ const Payment = () => {
                 method: "post",
                 url: `/payments/create?total=${subtotal * 100}`
             })
+
             setClientSecret(response.data.clientSecret)
         }
 
         getClientSecret();
     }, [basket]);
-    
+
+    console.log('the secret is >>>' , clientSecret);
 
     const handleSubmit = async e => {
         // do stripe stuff...
@@ -50,6 +52,10 @@ const Payment = () => {
             setSucceeded(true);
             setError(null);
             setProcessing(false);
+
+            dispatch({
+                type: 'EMPTY_BASKET'
+            })
 
             history.replace('/orders')
         })

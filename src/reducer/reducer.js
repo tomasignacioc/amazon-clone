@@ -15,6 +15,11 @@ const reducer = (state, action) => {
                 ...state,
                 basket: state.basket.filter((item, i) => i !== action.payload)
             };
+        case 'EMPTY_BASKET':
+            return {
+                ...state,
+                basket: []
+            }
         case 'SET_USER':
             return {
                 ...state,
